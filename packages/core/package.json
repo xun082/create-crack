@@ -20,7 +20,9 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "keywords": [
     "cli",
