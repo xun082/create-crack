@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write # 允许修改和推送到分支
-      packages: write # 允许发布到 npm registry（如果需要）
-      pull-requests: write # 允许创建 PR
+      contents: write
+      packages: write
+      pull-requests: write
 
     steps:
       - name: Checkout Repo
@@ -34,6 +34,12 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+
+      # ✅ 关键步骤：写 .npmrc 文件，供 pnpm publish 使用
+      - name: Set up .npmrc for npm publish
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Build packages
         run: pnpm build
