@@ -18,6 +18,12 @@
     "test:run": {
       "dependsOn": ["^test:run"]
     },
+    "lint:ci": {
+      "dependsOn": ["^lint:ci"]
+    },
+    "format:ci": {
+      "dependsOn": ["^format:ci"]
+    },
     "dev": {
       "cache": false,
       "persistent": true,

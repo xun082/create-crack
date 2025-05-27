@@ -24,7 +24,9 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "lint:ci": "eslint src --ext .ts,.tsx --ignore-pattern '**/*.test.ts' --ignore-pattern '**/*.spec.ts' --max-warnings 0",
+    "format:ci": "prettier --check \"src/**/*.{ts,tsx}\""
   },
   "keywords": [
     "react",

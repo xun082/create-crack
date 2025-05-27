@@ -9,6 +9,8 @@
     "check-types": "turbo run check-types",
     "test": "turbo run test",
     "test:run": "turbo run test:run",
+    "lint:ci": "turbo run lint:ci",
+    "format:ci": "turbo run format:ci",
     "postinstall": "husky install",
     "commit": "git-cz",
     "changeset": "changeset",
