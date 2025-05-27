@@ -1,5 +1,11 @@
 # create-crack
 
+## 1.0.2
+
+### Patch Changes
+
+- cd0a422: fix the issue of missing files required for download.
+
 ## 1.0.1
 
 ### Patch Changes
