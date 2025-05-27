@@ -1,6 +1,6 @@
 {
   "name": "create-crack",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "CLI tool for creating crack projects",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
