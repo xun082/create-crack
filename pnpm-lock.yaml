@@ -113,6 +113,10 @@ importers:
       tar:
         specifier: ^7.4.3
         version: 7.4.3
+    devDependencies:
+      rollup-plugin-copy:
+        specifier: ^3.5.0
+        version: 3.5.0
 
   packages/utils:
     dependencies:

@@ -1,5 +1,6 @@
 import { commonPlugins, createCommonPluginsWithClean } from '../../rollup.base.mjs';
 import { createRequire } from 'module';
+import copy from 'rollup-plugin-copy';
 
 const require = createRequire(import.meta.url);
 const pkg = require('./package.json');
@@ -28,7 +29,12 @@ const config = [
       sourcemap: true,
     },
     external,
-    plugins: createCommonPluginsWithClean(),
+    plugins: [
+      ...createCommonPluginsWithClean(),
+      copy({
+        targets: [{ src: 'src/package', dest: 'dist' }],
+      }),
+    ],
   },
   // ESM 模块文件
   {
