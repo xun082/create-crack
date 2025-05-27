@@ -96,7 +96,7 @@ async function updatePackageVersions(packageJson: PackageJsonType): Promise<Pack
  */
 function mergeEslintConfig(packageJson: PackageJsonType): PackageJsonType {
   try {
-    const eslintConfigPath = join(__dirname, '../package/eslint.json');
+    const eslintConfigPath = join(__dirname, './package/eslint.json');
     const eslintConfig = getPackageJsonInfo(eslintConfigPath, false);
 
     if (!eslintConfig) {
@@ -157,7 +157,7 @@ async function createPackageJson(
 ): Promise<PackageJsonType> {
   try {
     // 从 package 目录读取对应项目类型的 JSON 文件
-    const templatePath = join(__dirname, `../package/${projectType}.json`);
+    const templatePath = join(__dirname, `./package/${projectType}.json`);
     console.log(`尝试读取模板: ${templatePath}`);
 
     const packageInfo = getPackageJsonInfo(templatePath, false);
@@ -195,7 +195,7 @@ async function createPackageJson(
  * ```
  */
 function createTemplateFile(fileName: string): string {
-  const filePath = join(__dirname, `../package/${fileName}`);
+  const filePath = join(__dirname, `./package/${fileName}`);
 
   return readFileSync(filePath, 'utf-8');
 }
