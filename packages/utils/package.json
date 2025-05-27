@@ -1,0 +1,30 @@
+{
+  "name": "@verve-kit/utils",
+  "version": "0.0.1",
+  "description": "Utility functions for verve-kit",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "check-types": "tsc --noEmit"
+  },
+  "keywords": [
+    "utils",
+    "verve-kit"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "kleur": "^4.1.5"
+  }
+}

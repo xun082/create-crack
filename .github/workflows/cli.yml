@@ -1,0 +1,43 @@
+name: CLI Compatibility Test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test-cli:
+            name: Test create-crack on Node ${{ matrix.node }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [18, 20, 22]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.4.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build all packages
+        run: pnpm build
+
+      - name: Link CLI globally
+        working-directory: packages/core
+        run: pnpm link --global
+
+      - name: Run CLI to test basic usage
+        run: create-crack my-test-project --force
