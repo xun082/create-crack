@@ -67,7 +67,7 @@ export default function createCommitlint(projectName: string): void {
 
     // 使用绝对路径
     const targetPackagePath = join(projectName, 'package.json');
-    const huskyTemplatePath = join(__dirname, '../src/package/husky.json');
+    const huskyTemplatePath = join(__dirname, './package/husky.json');
 
     console.log(`读取 husky 模板: ${huskyTemplatePath}`);
     console.log(`读取项目 package.json: ${targetPackagePath}`);
