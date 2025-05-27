@@ -3,6 +3,12 @@
   "compilerOptions": {
     "noEmit": true
   },
-  "include": ["packages/*/src/**/*", "apps/*/src/**/*"],
+  "include": [
+    "packages/*/src/**/*",
+    "apps/*/src/**/*",
+    "packages/*/*.config.ts",
+    "packages/*/*.config.mjs",
+    "packages/*/tests/**/*"
+  ],
   "exclude": ["node_modules", "dist", "build", ".turbo"]
 }

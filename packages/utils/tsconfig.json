@@ -4,6 +4,6 @@
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "tests/create_hash.test.ts"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }
