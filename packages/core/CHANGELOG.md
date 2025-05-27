@@ -1,5 +1,11 @@
 # create-crack
 
+## 1.0.1
+
+### Patch Changes
+
+- cd83768: Fix the issue of missing files required for download.
+
 ## 1.0.0
 
 ### Major Changes
