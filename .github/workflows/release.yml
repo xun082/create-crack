@@ -11,6 +11,12 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # 允许修改和推送到分支
+      packages: write # 允许发布到 npm registry（如果需要）
+      pull-requests: write # 允许创建 PR
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -36,7 +42,6 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: pnpm release
           title: 'Release: Version Packages'
           commit: 'chore: release packages'
