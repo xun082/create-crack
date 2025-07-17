@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import fs from 'fs-extra';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'node:path';
 
@@ -16,15 +16,17 @@ const __dirname = dirname(__filename);
  *
  * @example
  * ```ts
- * const pkg = getPackageJsonInfo('../package.json', true);
+ * const pkg = await getPackageJsonInfo('../package.json', true);
  * console.log(pkg.name);
  * ```
  */
-function getPackageJsonInfo(relativePath: string, isFromCurrentDir: boolean): PackageJsonType {
+async function getPackageJsonInfo(
+  relativePath: string,
+  isFromCurrentDir: boolean,
+): Promise<PackageJsonType> {
   const filePath = isFromCurrentDir ? join(__dirname, relativePath) : relativePath;
-  const content = readFileSync(filePath, 'utf-8');
 
-  return JSON.parse(content) as PackageJsonType;
+  return await fs.readJson(filePath);
 }
 
 export default getPackageJsonInfo;

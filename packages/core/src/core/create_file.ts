@@ -11,9 +11,6 @@ import { PACKAGES_TO_UPDATE } from './package-versions';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// 添加调试信息
-console.log('create_file.ts __dirname:', __dirname);
-
 /**
  * 获取 npm 包的最新版本
  *
@@ -94,10 +91,10 @@ async function updatePackageVersions(packageJson: PackageJsonType): Promise<Pack
  * @param packageJson - 基础的 package.json 对象
  * @returns 合并了 ESLint 配置的 package.json 对象
  */
-function mergeEslintConfig(packageJson: PackageJsonType): PackageJsonType {
+async function mergeEslintConfig(packageJson: PackageJsonType): Promise<PackageJsonType> {
   try {
     const eslintConfigPath = join(__dirname, './package/eslint.json');
-    const eslintConfig = getPackageJsonInfo(eslintConfigPath, false);
+    const eslintConfig = await getPackageJsonInfo(eslintConfigPath, false);
 
     if (!eslintConfig) {
       console.warn('⚠️ ESLint 配置文件未找到，跳过 ESLint 配置合并');
@@ -160,7 +157,7 @@ async function createPackageJson(
     const templatePath = join(__dirname, `./package/${projectType}.json`);
     console.log(`尝试读取模板: ${templatePath}`);
 
-    const packageInfo = getPackageJsonInfo(templatePath, false);
+    const packageInfo = await getPackageJsonInfo(templatePath, false);
     if (!packageInfo) throw new Error('Package info is undefined');
 
     packageInfo.author = os.userInfo().username;
@@ -171,7 +168,7 @@ async function createPackageJson(
 
     // 如果启用了 ESLint，合并 ESLint 配置
     if (enableEslint) {
-      return mergeEslintConfig(updatedPackageInfo);
+      return await mergeEslintConfig(updatedPackageInfo);
     }
 
     return updatedPackageInfo;

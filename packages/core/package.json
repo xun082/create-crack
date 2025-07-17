@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "bin": {
-    "create-crack": "dist/index.js"
+    "create-crack": "dist/index.esm.js"
   },
   "publishConfig": {
     "access": "public"
@@ -39,11 +39,14 @@
     "@verve-kit/utils": "workspace:*",
     "boxen": "^8.0.1",
     "commander": "^14.0.0",
+    "execa": "8",
+    "fs-extra": "^11.3.0",
     "kleur": "^4.1.5",
     "nanospinner": "^1.2.2",
     "tar": "^7.4.3"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
     "rollup-plugin-copy": "^3.5.0"
   }
 }

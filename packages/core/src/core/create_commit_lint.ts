@@ -1,45 +1,32 @@
 import { join } from 'node:path';
-import { writeFileSync, existsSync, copyFileSync, readdirSync, statSync, mkdirSync } from 'node:fs';
+import fs from 'fs-extra';
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
-import kleur from 'kleur';
 
 import { PackageJsonType } from '../types';
-import getPackageJsonInfo from './package_info.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-/**
- * 递归复制文件夹
- *
- * @param sourceDir - 源文件夹路径
- * @param destinationDir - 目标文件夹路径
- */
-const copyFolderRecursive = (sourceDir: string, destinationDir: string) => {
-  try {
-    if (!existsSync(destinationDir)) {
-      mkdirSync(destinationDir, { recursive: true });
+// 获取模板目录路径 - 总是相对于包根目录
+const getTemplateDir = async () => {
+  // 向上查找到包含 package.json 的目录（包根目录）
+  let currentDir = __dirname;
+
+  while (!(await fs.pathExists(join(currentDir, 'package.json')))) {
+    const parent = dirname(currentDir);
+
+    if (parent === currentDir) {
+      throw new Error('无法找到包根目录');
     }
 
-    const items = readdirSync(sourceDir);
-
-    for (const item of items) {
-      const src = join(sourceDir, item);
-      const dest = join(destinationDir, item);
-      const stat = statSync(src);
-
-      if (stat.isDirectory()) {
-        copyFolderRecursive(src, dest);
-      } else {
-        copyFileSync(src, dest);
-      }
-    }
-  } catch (error) {
-    console.error(kleur.red('❌ 复制 husky 模板文件时出错:'), error);
-    process.exit(1);
+    currentDir = parent;
   }
+
+  return join(currentDir, 'template');
 };
+
+// 移除自己实现的复制函数，使用 fs-extra 的 copy 方法
 
 /**
  * 为指定项目集成 commitlint 和相关 husky 配置。
@@ -48,16 +35,16 @@ const copyFolderRecursive = (sourceDir: string, destinationDir: string) => {
  *
  * @example
  * ```ts
- * createCommitlint('my-app');
+ * await createCommitlint('my-app');
  * ```
  */
-export default function createCommitlint(projectName: string): void {
+export default async function createCommitlint(projectName: string): Promise<void> {
   try {
     // 复制 husky 模板文件
-    const huskyTemplateSource = join(__dirname, '../template/template-husky');
+    const huskyTemplateSource = join(await getTemplateDir(), 'template-husky');
 
-    if (existsSync(huskyTemplateSource)) {
-      copyFolderRecursive(huskyTemplateSource, projectName);
+    if (await fs.pathExists(huskyTemplateSource)) {
+      await fs.copy(huskyTemplateSource, projectName);
       console.log('✅ Husky 模板文件已复制');
     } else {
       console.warn('⚠️ Husky 模板目录未找到');
@@ -72,8 +59,8 @@ export default function createCommitlint(projectName: string): void {
     console.log(`读取 husky 模板: ${huskyTemplatePath}`);
     console.log(`读取项目 package.json: ${targetPackagePath}`);
 
-    const huskyConfig = getPackageJsonInfo(huskyTemplatePath, false);
-    const projectPackageJson: PackageJsonType = getPackageJsonInfo(targetPackagePath, false);
+    const huskyConfig = await fs.readJson(huskyTemplatePath);
+    const projectPackageJson: PackageJsonType = await fs.readJson(targetPackagePath);
 
     // 合并 husky 配置到项目的 package.json 中
     for (const key in huskyConfig) {
@@ -92,7 +79,7 @@ export default function createCommitlint(projectName: string): void {
       }
     }
 
-    writeFileSync(targetPackagePath, JSON.stringify(projectPackageJson, null, 2), 'utf-8');
+    await fs.writeJson(targetPackagePath, projectPackageJson, { spaces: 2 });
     console.log('✅ Commit Lint 配置已成功合并到 package.json');
   } catch (error) {
     console.error('❌ 创建 Commit Lint 配置时出错:', error);
