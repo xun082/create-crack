@@ -3,25 +3,29 @@
 import { Command } from 'commander';
 import kleur from 'kleur';
 
-import createApp from './core/create_app.js';
-import getPackageJsonInfo from './core/package_info.js';
+import createApp from './core/create_app';
+import getPackageJsonInfo from './core/package_info';
 
-const program = new Command();
+async function main() {
+  const program = new Command();
 
-program
-  .version(kleur.green(getPackageJsonInfo('../package.json', true).version || '1.0.0'))
-  .arguments('<project-name>')
-  .description(kleur.cyan('Create a directory for your project files'))
-  .option('-f, --force', 'Overwrite target directory if it exists')
-  .option('-t, --template <template>', 'Project template (react-web-js | react-web-ts)')
-  .option('-p, --package-manager <manager>', 'Package manager (npm | yarn | pnpm | cnpm)')
-  .option('-e, --eslint', 'Enable ESLint configuration')
-  .option('-c, --commit-lint', 'Enable Commit Lint configuration')
-  .option('--no-eslint', 'Disable ESLint configuration')
-  .option('--no-commit-lint', 'Disable Commit Lint configuration')
-  .addHelpText(
-    'after',
-    `
+  // 异步获取版本号
+  const packageInfo = await getPackageJsonInfo('../package.json', true);
+
+  program
+    .version(kleur.green(packageInfo.version as string))
+    .arguments('<project-name>')
+    .description(kleur.cyan('Create a directory for your project files'))
+    .option('-f, --force', 'Overwrite target directory if it exists')
+    .option('-t, --template <template>', 'Project template (react-web-js | react-web-ts)')
+    .option('-p, --package-manager <manager>', 'Package manager (npm | yarn | pnpm | cnpm)')
+    .option('-e, --eslint', 'Enable ESLint configuration')
+    .option('-c, --commit-lint', 'Enable Commit Lint configuration')
+    .option('--no-eslint', 'Disable ESLint configuration')
+    .option('--no-commit-lint', 'Disable Commit Lint configuration')
+    .addHelpText(
+      'after',
+      `
 
 ${kleur.yellow('Examples:')}
   ${kleur.gray('# Interactive mode (default)')}
@@ -46,8 +50,11 @@ ${kleur.yellow('Available Package Managers:')}
   ${kleur.cyan('pnpm')}  - PNPM Package Manager
   ${kleur.cyan('cnpm')}  - CNPM Package Manager
 `,
-  )
-  .action((name, options) => {
-    createApp(name, options);
-  })
-  .parse(process.argv);
+    )
+    .action((name, options) => {
+      createApp(name, options);
+    })
+    .parse(process.argv);
+}
+
+main().catch(console.error);

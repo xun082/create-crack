@@ -7,7 +7,7 @@ on:
 
 jobs:
   test-cli:
-            name: Test create-crack on Node ${{ matrix.node }} / ${{ matrix.os }}
+    name: Test create-crack on Node ${{ matrix.node }} / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -35,9 +35,5 @@ jobs:
       - name: Build all packages
         run: pnpm build
 
-      - name: Link CLI globally
-        working-directory: packages/core
-        run: pnpm link --global
-
       - name: Run CLI to test basic usage
-        run: create-crack my-test-project --force
+        run: pnpm dlx create-crack my-test-project --force
