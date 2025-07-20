@@ -1,5 +1,11 @@
 # @verve-kit/utils
 
+## 2.0.0
+
+### Major Changes
+
+- c1c3f1f: 升级了一个非常牛皮的版本
+
 ## 1.0.0
 
 ### Major Changes
