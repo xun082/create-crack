@@ -1,5 +1,13 @@
 # @verve-kit/react-script
 
+## 2.0.1
+
+### Patch Changes
+
+- c1c3f1f: 升级了一个非常牛皮的版本
+- Updated dependencies [c1c3f1f]
+  - @verve-kit/utils@2.0.0
+
 ## 2.0.0
 
 ### Major Changes

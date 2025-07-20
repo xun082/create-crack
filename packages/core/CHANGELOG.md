@@ -1,5 +1,16 @@
 # create-crack
 
+## 2.0.0
+
+### Major Changes
+
+- c1c3f1f: 升级了一个非常牛皮的版本
+
+### Patch Changes
+
+- Updated dependencies [c1c3f1f]
+  - @verve-kit/utils@2.0.0
+
 ## 1.0.3
 
 ### Patch Changes
